@@ -1,0 +1,198 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_oauth_client_details
+      author: kandryjowicz
+      changes:
+        - createTable:
+            tableName: oauth_client_details
+            columns:
+              - column:
+                  name: client_id
+                  type: varchar(256)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: resource_ids
+                  type: varchar(256)
+              - column:
+                  name: client_secret
+                  type: varchar(256)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: scope
+                  type: varchar(256)
+              - column:
+                  name: authorized_grant_types
+                  type: varchar(256)
+              - column:
+                  name: web_server_redirect_uri
+                  type: varchar(256)
+              - column:
+                  name: authorities
+                  type: varchar(256)
+              - column:
+                  name: access_token_validity
+                  type: int
+              - column:
+                  name: refresh_token_validity
+                  type: int
+              - column:
+                  name: additional_information
+                  type: varchar(4000)
+              - column:
+                  name: autoapprove
+                  type: varchar(256)
+  - changeSet:
+      id: create_oauth_client_token
+      author: kandryjowicz
+      changes:
+        - createTable:
+            tableName: oauth_client_token
+            columns:
+              - column:
+                  name: authentication_id
+                  type: varchar(256)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: token_id
+                  type: varchar(256)
+              - column:
+                  name: client_id
+                  type: varchar(256)
+              - column:
+                  name: user_name
+                  type: varchar(256)
+              - column:
+                  name: token
+                  type: blob
+  - changeSet:
+      id: create_oauth_access_token
+      author: kandryjowicz
+      changes:
+        - createTable:
+            tableName: oauth_access_token
+            columns:
+              - column:
+                  name: token_id
+                  type: varchar(256)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: authentication_id
+                  type: varchar(256)
+              - column:
+                  name: client_id
+                  type: varchar(256)
+              - column:
+                  name: user_name
+                  type: varchar(256)
+              - column:
+                  name: refresh_token
+                  type: varchar(256)
+              - column:
+                  name: authentication
+                  type: blob
+              - column:
+                  name: token
+                  type: blob
+  - changeSet:
+      id: create_oauth_refresh_token
+      author: kandryjowicz
+      changes:
+        - createTable:
+            tableName: oauth_refresh_token
+            columns:
+              - column:
+                  name: token_id
+                  type: varchar(256)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: token
+                  type: blob
+              - column:
+                  name: authentication
+                  type: blob
+  - changeSet:
+      id: create_oauth_code
+      author: kandryjowicz
+      changes:
+        - createTable:
+            tableName: oauth_code
+            columns:
+              - column:
+                  name: code
+                  type: varchar(256)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: authentication
+                  type: blob
+  - changeSet:
+      id: create_users
+      author: kandryjowicz
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(256)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(256)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: enabled
+                  type: tinyint
+        - addUniqueConstraint:
+            tableName: users
+            columnNames: username
+            constraintName: unique_username
+  - changeSet:
+      id: create_authorities
+      author: kandryjowicz
+      changes:
+        - createTable:
+            tableName: authorities
+            columns:
+              - column:
+                  name: username
+                  type: varchar(256)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: authority
+                  type: varchar(256)
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: authorities
+            columnNames: username, authority
+            constraintName: pk_authorities
+  - changeSet:
+      id: load_data_sql
+      author: kandryjowicz
+      changes:
+        - sqlFile:
+            path: data\data.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
