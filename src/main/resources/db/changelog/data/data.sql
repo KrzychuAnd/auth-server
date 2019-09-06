@@ -6,5 +6,13 @@ INSERT INTO oauth_client_details (client_id, client_secret, scope, authorized_gr
 INSERT INTO users (username, password, enabled) VALUES ('user', '{bcrypt}$2a$10$cyf5NfobcruKQ8XGjUJkEegr9ZWFqaea6vjpXWEaSqTa2xL9wjgQC', 1);
 INSERT INTO users (username, password, enabled) VALUES ('guest', '{bcrypt}$2a$10$cyf5NfobcruKQ8XGjUJkEegr9ZWFqaea6vjpXWEaSqTa2xL9wjgQC', 1);
 
-INSERT INTO authorities (username, authority) VALUES ('user', 'ROLE_USER');
-INSERT INTO authorities (username, authority) VALUES ('guest', 'ROLE_GUEST');
+INSERT INTO authorities (authority) VALUES ('ROLE_USER');
+INSERT INTO authorities (authority) VALUES ('ROLE_GUEST');
+
+INSERT INTO users_authorities (user_id, authority_id)
+    SELECT id, (SELECT id FROM authorities WHERE authority = 'ROLE_USER')
+        FROM users WHERE username = 'user';
+
+INSERT INTO users_authorities (user_id, authority_id)
+    SELECT id, (SELECT id FROM authorities WHERE authority = 'ROLE_GUEST')
+        FROM users WHERE username = 'guest';

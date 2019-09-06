@@ -174,19 +174,50 @@ databaseChangeLog:
             tableName: authorities
             columns:
               - column:
-                  name: username
-                  type: varchar(256)
+                  name: id
+                  type: int
+                  autoIncrement: true
                   constraints:
+                    primaryKey: true
                     nullable: false
               - column:
                   name: authority
                   type: varchar(256)
                   constraints:
                     nullable: false
+  - changeSet:
+      id: create_users_authorities
+      author: kandryjowicz
+      changes:
+        - createTable:
+            tableName: users_authorities
+            columns:
+              - column:
+                  name: user_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: authority_id
+                  type: int
+                  constraints:
+                    nullable: false
         - addPrimaryKey:
-            tableName: authorities
-            columnNames: username, authority
-            constraintName: pk_authorities
+            tableName: users_authorities
+            columnNames: user_id, authority_id
+            constraintName: pk_users_authorities
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: users_authorities
+            constraintName: fk_users_authorities_users
+            referencedColumnNames: id
+            referencedTableName: users
+        - addForeignKeyConstraint:
+            baseColumnNames: authority_id
+            baseTableName: users_authorities
+            constraintName: fk_users_authorities_authorities
+            referencedColumnNames: id
+            referencedTableName: authorities
   - changeSet:
       id: load_data_sql
       author: kandryjowicz

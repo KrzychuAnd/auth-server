@@ -3,7 +3,8 @@ package com.ait.auth.domain.entitiy;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -27,6 +28,11 @@ public class UsersEntity {
     @Column(name = "enabled")
     private Integer enabled;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<AuthoritiesEntity> authorities;
+    @ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_authorities",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "authority_id") }
+    )
+    Set<AuthoritiesEntity> authorities = new HashSet<>();
 }

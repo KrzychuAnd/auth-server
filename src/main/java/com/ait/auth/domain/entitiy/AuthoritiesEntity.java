@@ -15,19 +15,9 @@ import javax.persistence.*;
 public class AuthoritiesEntity implements GrantedAuthority {
 
     @Id
-    @Column(name = "username")
-    private String username;
+    @Column(name = "id")
+    private Long id;
 
-    @Id
     @Column(name = "authority")
     private String authority;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "username", insertable = false, updatable = false)
-    private UsersEntity user;
-
-    @Override
-    public String getAuthority() {
-        return authority;
-    }
 }
