@@ -70,56 +70,6 @@ databaseChangeLog:
                   name: token
                   type: blob
   - changeSet:
-      id: create_oauth_access_token
-      author: kandryjowicz
-      changes:
-        - createTable:
-            tableName: oauth_access_token
-            columns:
-              - column:
-                  name: token_id
-                  type: varchar(256)
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: authentication_id
-                  type: varchar(256)
-              - column:
-                  name: client_id
-                  type: varchar(256)
-              - column:
-                  name: user_name
-                  type: varchar(256)
-              - column:
-                  name: refresh_token
-                  type: varchar(256)
-              - column:
-                  name: authentication
-                  type: blob
-              - column:
-                  name: token
-                  type: blob
-  - changeSet:
-      id: create_oauth_refresh_token
-      author: kandryjowicz
-      changes:
-        - createTable:
-            tableName: oauth_refresh_token
-            columns:
-              - column:
-                  name: token_id
-                  type: varchar(256)
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: token
-                  type: blob
-              - column:
-                  name: authentication
-                  type: blob
-  - changeSet:
       id: create_oauth_code
       author: kandryjowicz
       changes:
