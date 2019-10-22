@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name="authorities")
 public class AuthoritiesEntity implements GrantedAuthority {
 
