@@ -1,11 +1,11 @@
 package com.ait.auth.endpoint;
 
 import com.ait.auth.domain.dto.AddUserDto;
+import com.ait.auth.domain.dto.ChangeUserDto;
 import com.ait.auth.domain.dto.UserDto;
 import com.ait.auth.domain.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -38,5 +38,11 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto addUser(@RequestBody AddUserDto addUserDto) {
         return usersService.addUser(addUserDto);
+    }
+
+    @PatchMapping
+    @ResponseStatus(HttpStatus.OK)
+    public UserDto changeUser(@RequestBody ChangeUserDto changeUserDto) {
+        return usersService.changeUser(changeUserDto);
     }
 }
